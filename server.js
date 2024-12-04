@@ -130,6 +130,26 @@ app.get('/posttable', async (req, res) => {
     }
 });
 
+
+app.post('/posttable', async (req, res) => {
+    try {
+        const { body } = req.body; 
+        if (!body) {
+            return res.status(400).json({ error: "Post body is required" });
+        }
+
+        const newPost = await pool.query(
+            'INSERT INTO posttable (body) VALUES ($1) RETURNING *',
+            [body]
+        );
+
+        res.status(201).json(newPost.rows[0]);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server error');
+    }
+});
+
 //logout a user = deletes the jwt
 app.get('/auth/logout', (req, res) => {
     console.log('delete jwt request arrived');
