@@ -21,15 +21,15 @@ GET http://localhost:3000/auth/authenticate
 Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImEyMzEzMzU2LWY2ZDYtNDI1NS1hYzBmLWI4ZDdlNGZmYmUyMyIsImlhdCI6MTY2ODgwMjc0NywiZXhwIjoxNjY4ODA2MzQ3fQ.X2I_tHlpBJoES_brX43EEbx4uvlIDzzMU68FJvNVsXE
 
 ### GET posts
-GET http://localhost:3000/api/posts 
+GET http://localhost:3000/posttable
 Content-Type: application/json
 
 ### GET a post
-GET http://localhost:3000/api/posts/25
+GET http://localhost:3000/posttable/25
 Content-Type: application/json
 
 ### Post a post
-POST http://localhost:3000/api/posts
+POST http://localhost:3000/posttable
 Content-Type: application/json
 
 {
@@ -39,7 +39,7 @@ Content-Type: application/json
 }
 
 ### Modify a post
-PUT http://localhost:3000/api/posts/37
+PUT http://localhost:3000/posttable/37
 Content-Type: application/json
 
 {
@@ -49,4 +49,4 @@ Content-Type: application/json
 }
 
 ### Delete a post
-DELETE http://localhost:3000/api/posts/36
+DELETE http://localhost:3000/posttable/36
