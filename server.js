@@ -150,6 +150,33 @@ app.post('/posttable', async (req, res) => {
     }
 });
 
+app.put('/posttable/:id', async (req, res) => {
+    try {
+        const { id } = req.params; 
+        const { body } = req.body; 
+
+        if (!body) {
+            return res.status(400).json({ error: "Post body is required" });
+        }
+
+        const post = await pool.query(
+            'UPDATE posttable SET body = $1 WHERE id = $2 RETURNING *',
+            [body, id]
+        );
+
+        if (post.rowCount === 0) {
+            return res.status(404).json({ error: "Post not found" });
+        }
+
+        res.status(200).json(post.rows[0]);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server error');
+    }
+});
+
+
+
 //logout a user = deletes the jwt
 app.get('/auth/logout', (req, res) => {
     console.log('delete jwt request arrived');
