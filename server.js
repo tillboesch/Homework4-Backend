@@ -120,6 +120,16 @@ app.post('/auth/login', async(req, res) => {
     }
 });
 
+app.get('/posttable', async (req, res) => {
+    try {
+        const posttable = await pool.query('SELECT * FROM posttable');
+        res.json(posttable.rows); // give the post
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server error');
+    }
+});
+
 //logout a user = deletes the jwt
 app.get('/auth/logout', (req, res) => {
     console.log('delete jwt request arrived');
