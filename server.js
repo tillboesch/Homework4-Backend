@@ -229,7 +229,19 @@ app.get('/posttable/:id', async (req, res) => {
   });
   
 
-
+app.delete('/posttable/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const result = await pool.query('DELETE FROM posttable WHERE id = $1 RETURNING *', [id]);
+        if (result.rowCount === 0) {
+            return res.status(404).json({ error: "Post not found" });
+        }
+        res.status(200).json({ message: "Post deleted successfully" });
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server error');
+    }
+});
 
 //logout a user = deletes the jwt
 app.get('/auth/logout', (req, res) => {
