@@ -174,6 +174,60 @@ app.put('/posttable/:id', async (req, res) => {
         res.status(500).send('Server error');
     }
 });
+app.get('/posttable/:id', async (req, res) => {
+    try {
+      const { id } = req.params; // Extract the id from the URL
+      const posttable = await pool.query('SELECT * FROM posttable WHERE id = $1', [id]); // Pass id as parameter
+  
+      if (posttable.rows.length === 0) {
+        return res.status(404).json({ error: 'Post not found' });
+      }
+  
+      res.json(posttable.rows[0]); // Return the found post (first row)
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server error');
+    }
+  });
+
+  app.delete('/posttable/:id', async (req, res) => {
+    try {
+      const { id } = req.params; // Extract the id from the URL
+  
+      // Execute DELETE query
+      const result = await pool.query('DELETE FROM posttable WHERE id = $1 RETURNING *', [id]);
+  
+      if (result.rows.length === 0) {
+        return res.status(404).json({ error: 'Post not found' });
+      }
+  
+      res.json({ message: 'Post deleted successfully', deletedPost: result.rows[0] }); // Return success message and deleted post
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server error');
+    }
+  });
+
+  app.delete('/posttable', async (req, res) => {
+    //DELETE all posts in posttable
+    try {
+      // Execute DELETE query
+      const result = await pool.query('DELETE FROM posttable RETURNING *');
+  
+      if (result.rows.length === 0) {
+        return res.status(404).json({ message: 'No posts found to delete' });
+      }
+  
+      res.json({ 
+        message: 'All posts deleted successfully', 
+        deletedPosts: result.rows // Return details of all deleted posts
+      });
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server error');
+    }
+  });
+  
 
 
 

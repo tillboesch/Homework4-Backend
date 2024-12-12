@@ -50,3 +50,8 @@ Content-Type: application/json
 
 ### Delete a post
 DELETE http://localhost:3000/posttable/36
+Content-Type: application/json
+
+### Delete posts
+DELETE http://localhost:3000/posttable
+Content-Type: application/json
